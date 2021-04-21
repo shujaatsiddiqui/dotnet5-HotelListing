@@ -13,6 +13,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using HotelListing.Configurations;
+using HotelListing.IRepository;
+using HotelListing.Repository;
 
 namespace HotelListing
 {
@@ -28,17 +31,33 @@ namespace HotelListing
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //Transient objects are always different; a new instance is provided to every controller
+            //and every service.
+
+            //Scoped objects are the same within a request, but different across different requests. 
+            //lifetime services are created once per request within the scope.
+            //It is equivalent to a singleton in the current scope.For example,
+            //in MVC it creates one instance for each HTTP request,
+            //but it uses the same instance in the other calls within the same web request.
+
+            //Singleton objects are the same for every object and every request.
 
             services.AddDbContext<DatabaseContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("sqlConnection"))
-            );
+                 options.UseSqlServer(Configuration.GetConnectionString("sqlConnection"))
+             );
 
-            services.AddCors(o => {
+            services.AddCors(o =>
+            {
                 o.AddPolicy("AllowAll", builder =>
                     builder.AllowAnyOrigin()
                     .AllowAnyMethod()
                     .AllowAnyHeader());
             });
+
+
+            services.AddAutoMapper(typeof(MapperInitilizer));
+
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
 
 
             services.AddSwaggerGen(c =>
@@ -47,7 +66,9 @@ namespace HotelListing
             });
 
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(op =>
+                op.SerializerSettings.ReferenceLoopHandling =
+                    Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
         }
 

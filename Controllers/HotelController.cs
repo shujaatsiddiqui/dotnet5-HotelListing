@@ -33,11 +33,11 @@ namespace HotelListing.Controllers
         //For swagger documentation
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetHotels()
+        public async Task<IActionResult> GetHotels([FromQuery] RequestParams requestParams)
         {
             try
             {
-                var hotels = await _unitOfWork.Hotels.GetAll();
+                var hotels = await _unitOfWork.Hotels.GetPagedList(requestParams);
                 var results = _mapper.Map<IList<HotelDTO>>(hotels);
                 return Ok(results);
             }

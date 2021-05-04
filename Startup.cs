@@ -116,11 +116,9 @@ namespace HotelListing
 
             app.UseCors("AllowAll");
 
+            app.UseResponseCaching();
             app.UseHttpCacheHeaders();
             app.UseIpRateLimiting();
-
-
-            app.UseResponseCaching();
             app.UseRouting();
 
             app.UseAuthentication();

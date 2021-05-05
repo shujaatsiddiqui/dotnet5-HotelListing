@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "apis1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.ApiManagement/service/HotelListingapi/apis/HotelListing",
+      "type": "apis.azure"
+    },
+    "mssql1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/shujaat-azure-sqlserver/databases/hotellistings",
+      "type": "mssql.azure",
+      "connectionId": "sqlConnection",
+      "secretStore": "AzureAppSettings"
+    }
+  }
+}

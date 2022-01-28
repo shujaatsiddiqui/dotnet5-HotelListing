@@ -35,7 +35,8 @@ namespace HotelListing.Services
             var claims = await GetClaims();
             var token = GenerateTokenOptions(signingCredentials, claims);
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            string jwtToken = new JwtSecurityTokenHandler().WriteToken(token);
+            return jwtToken;
         }
 
         private JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, List<Claim> claims)
@@ -73,7 +74,8 @@ namespace HotelListing.Services
 
         private SigningCredentials GetSigningCredentials()
         {
-            var key = Environment.GetEnvironmentVariable("KEY01");
+            var jwtSettings = _configuration.GetSection("Jwt");
+            var key = jwtSettings.GetSection("secretKey").Value; //Environment.GetEnvironmentVariable("KEY01");
             var secret = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
 
             return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);

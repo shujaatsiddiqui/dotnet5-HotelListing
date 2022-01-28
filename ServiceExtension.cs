@@ -34,7 +34,7 @@ namespace HotelListing
         public static void ConfigureJWT(this IServiceCollection services, IConfiguration Configuration)
         {
             var jwtSettings = Configuration.GetSection("Jwt");
-            var key = Environment.GetEnvironmentVariable("KEY01");
+            var key = jwtSettings.GetSection("secretKey").Value;//Environment.GetEnvironmentVariable("KEY01");
 
             services.AddAuthentication(o =>
             {

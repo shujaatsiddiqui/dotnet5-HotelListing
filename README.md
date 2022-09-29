@@ -44,3 +44,7 @@ Complete Source Code:
 	===================== 
 
 	https://github.com/trevoirwilliams/HotelListing-API/tree/6381c0c35493b09029a32d5d089637a32cfbd166/HotelListing 
+	
+References:
+==================
+https://thecodeblogger.com/2021/06/13/request-processing-pipeline-in-net-core-web-apis/
